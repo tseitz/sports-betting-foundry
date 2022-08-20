@@ -1,8 +1,13 @@
 .DS_Store
 node_modules
-*/build
-*/.svelte-kit
-*/package
+app/build
+app/.svelte-kit
+app/package
 .env
 .env.*
 !.env.example
+
+# foundry
+/target
+contracts/out/
+out.json
