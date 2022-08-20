@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
-	// import * as dotenv from 'dotenv';
-	// dotenv.config();
 
 	import { defaultEvmStores } from 'svelte-ethers-store';
 	// import Web3Modal from 'web3modal';
@@ -33,7 +31,6 @@
 		try {
 			await defaultEvmStores.setProvider(
 				`https://eth-goerli.alchemyapi.io/v2/${data.ALCHEMY_API_KEY}`
-				// `https://eth-goerli.alchemyapi.io/v2/XmoZTJyP4EfE-gxpxbASz4hlIp0zxqTM`
 			);
 
 			// console.log('$connected', defaultEvmStores.$connected);
