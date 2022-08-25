@@ -1,1 +1,4 @@
-solmate-utils/=lib/solmate/src/utils
+ds-test/=lib/solmate/lib/ds-test/src/
+forge-std/=lib/forge-std/src/
+solmate-utils/=lib/solmate/src/utils/
+solmate/=lib/solmate/src/

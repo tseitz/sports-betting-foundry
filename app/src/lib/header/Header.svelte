@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { connected, defaultEvmStores } from 'svelte-ethers-store';
+	import { connected, defaultEvmStores, provider } from 'svelte-ethers-store';
 	import ConnectButton from './ConnectButton.svelte';
 
 	export let pending: boolean;
 	export let connect: () => void;
+
+	$: network = $connected ? $provider.getNetwork() : '';
 
 	const disconnect = async () => {
 		await defaultEvmStores.disconnect();
@@ -12,8 +14,11 @@
 </script>
 
 <div class="navbar bg-base-100">
-	<div class="flex-1">
+	<div class="flex-1 gap-2">
 		<a class="btn btn-ghost normal-case text-xl" href="/">Bet Me</a>
+		{#await network then value}
+			<span>powered by {value.name === 'unknown' ? 'localhost' : value.name}</span>
+		{/await}
 	</div>
 	<div class="flex-none gap-2">
 		<div class="flex-none">

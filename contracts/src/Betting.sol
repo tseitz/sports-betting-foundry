@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.15;
 
 error Unauthorized();
 
@@ -36,12 +36,16 @@ contract Betting {
         _;
     }
 
-    modifier onlyCreator() {
-        // TODO: idk work on this
-        if (msg.sender != Pool.creator) {
-            revert Unauthorized();
-        }
-        _;
+    // modifier onlyCreator() {
+    //     // TODO: idk work on this
+    //     if (msg.sender != Pool.creator) {
+    //         revert Unauthorized();
+    //     }
+    //     _;
+    // }
+
+    function hello(string memory output) public pure returns (string memory) {
+        return output;
     }
 
     function createPool(string memory title, string memory description) public {
