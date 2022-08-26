@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { LayoutData } from './$types';
 
-	import { defaultEvmStores, provider, signer, connected, contracts } from 'svelte-ethers-store';
+	import { defaultEvmStores, provider, signer, contracts } from 'svelte-ethers-store';
 	// import Web3Modal from 'web3modal';
 
 	import Header from '$lib/header/Header.svelte';
@@ -29,10 +29,6 @@
 	const connect = async () => {
 		pending = true;
 		try {
-			// await defaultEvmStores.setProvider(
-			// 	`https://eth-goerli.alchemyapi.io/v2/${data.ALCHEMY_API_KEY}`
-			// );
-			// await defaultEvmStores.setProvider(window.ethereum);
 			// await defaultEvmStores.setProvider('http://localhost:8545');
 			await defaultEvmStores.setProvider();
 			// console.log($chainId);
@@ -73,7 +69,7 @@
 
 <Header {pending} {connect} />
 
-<main>
+<main class="container mx-auto">
 	{#await value}
 		<span>waiting...</span>
 	{:then value}
@@ -85,22 +81,6 @@
 	<slot />
 </main>
 
-<footer>
+<footer class="footer footer-center p-10 bg-neutral text-neutral-content">
 	<p>Let's learn Foundry and Sveltekit!</p>
 </footer>
-
-<style>
-	footer {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		padding: 40px;
-	}
-
-	@media (min-width: 480px) {
-		footer {
-			padding: 40px 0;
-		}
-	}
-</style>
