@@ -33,7 +33,8 @@
 			// 	`https://eth-goerli.alchemyapi.io/v2/${data.ALCHEMY_API_KEY}`
 			// );
 			// await defaultEvmStores.setProvider(window.ethereum);
-			await defaultEvmStores.setProvider('http://localhost:8545');
+			// await defaultEvmStores.setProvider('http://localhost:8545');
+			await defaultEvmStores.setProvider();
 			// console.log($chainId);
 
 			const { name, chainId } = await $provider.getNetwork();
@@ -45,8 +46,8 @@
 
 			defaultEvmStores.attachContract(
 				'storage',
-				'0x922d6956c99e12dfeb3224dea977d0939758a1fe',
-				'[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Retrieved","type":"event"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"retrieve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"store","outputs":[],"stateMutability":"nonpayable","type":"function"}]'
+				'0x0b306bf915c4d645ff596e518faf3f9669b97016',
+				'[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Retrieved","type":"event"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"retrieve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"store","outputs":[],"stateMutability":"nonpayable","type":"function"}]'
 			);
 
 			pending = false;
@@ -62,23 +63,25 @@
 		const transaction = await $contracts.storage.store(5000000000000);
 		console.log(transaction);
 		await transaction.wait();
-		const newValue = await $contracts.storage.retrieve();
-		console.log(newValue.value.toString());
+		value = await $contracts.storage.retrieve();
+		console.log(value.toString());
 		// console.log($contracts.storage.retrieve().value.toString());
 	};
+
+	$: value = $contracts.storage && $contracts.storage.retrieve();
 </script>
 
 <Header {pending} {connect} />
 
 <main>
-	{#if $connected}
-		{#await $contracts.storage.retrieve()}
-			<span>waiting...</span>
-		{:then value}
-			<h1>{console.log(value.value.toString())}</h1>
+	{#await value}
+		<span>waiting...</span>
+	{:then value}
+		{#if value}
+			<h1>{value.toString()}</h1>
 			<button class="btn" on:click={store}>Store Something</button>
-		{/await}
-	{/if}
+		{/if}
+	{/await}
 	<slot />
 </main>
 

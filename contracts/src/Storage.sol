@@ -24,11 +24,11 @@ contract Storage {
     }
 
     function store(uint256 num) public {
-        number = num;
+        number += num;
     }
 
-    function retrieve() public returns (uint256) {
-        emit Retrieved(msg.sender, number);
+    function retrieve() public view returns (uint256) {
+        // emit Retrieved(msg.sender, number);
         return number;
     }
 }
