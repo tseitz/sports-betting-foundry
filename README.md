@@ -2,7 +2,7 @@
 
 ## Description
 
-Play app for betting my family in football. Built with Sveltekit and Foundry toolkit
+Play app for betting my family in football. Built with Sveltekit, Thales and Foundry toolkit
 
 ### Features
 
