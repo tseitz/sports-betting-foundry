@@ -11,9 +11,15 @@ export async function load() {
 			isOpen: true
 		})
 		.then((markets: SportMarketInfo[]) => {
-			return markets.filter((market) =>
-				SPORTS_TAGS_MAP.Football.some((tag) => market.tags.includes(tag.toString()))
-			);
+			return markets
+				.filter((market) =>
+					SPORTS_TAGS_MAP.Football.some((tag) => market.tags.includes(tag.toString()))
+				)
+				.map((market) => {
+					market.homeBetAmount = 0;
+					market.awayBetAmount = 0;
+					return market;
+				});
 		});
 
 	console.log(await markets);

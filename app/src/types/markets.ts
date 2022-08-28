@@ -29,4 +29,6 @@ export type SportMarketInfo = {
 	awayScore: number;
 	sport: string;
 	timestamp: number; // really Date but timestamp
+	homeBetAmount: number; // our mapping for amount
+	awayBetAmount: number; // our mapping for amount
 };

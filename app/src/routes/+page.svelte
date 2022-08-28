@@ -1,8 +1,10 @@
 <script lang="ts">
 	import type { PageData } from './$types';
+	import { contracts } from 'svelte-ethers-store';
 
 	export let data: PageData;
 	const now = new Date().getTime();
+	let betAmount = {};
 
 	const getTimeUntil = (timestamp: number) => {
 		const delta = timestamp - now;
@@ -17,6 +19,14 @@
 			seconds
 		};
 	};
+
+	const bettingAvailable = (timestamp: number) => {
+		return timestamp > now;
+	};
+
+	$: betting = $contracts.betting;
+
+	$: console.log(betAmount);
 </script>
 
 <svelte:head>
@@ -31,7 +41,7 @@
 				<div class="flex flex-col col-span-3">
 					<h1 class="card-title text-3xl">{market.homeTeam} vs. {market.awayTeam}</h1>
 					<div class="grid grid-flow-col gap-5 text-center auto-cols-max my-4">
-						{#if market.maturityDate > now}
+						{#if bettingAvailable(market.maturityDate)}
 							<div class="flex flex-col">
 								<span class="countdown font-mono text-5xl">
 									<!-- jsx is nice for this, only need to call once to get all these. Need to figure this out in svelte -->
@@ -82,12 +92,24 @@
 						</figure>
 						<div class="card-body">
 							<h1 class="card-title justify-center">{market.awayTeam}</h1>
-							{#if market.maturityDate < now}
+							{#if !bettingAvailable(market.maturityDate)}
 								<h3 class="text-3xl text-center">{market.awayScore}</h3>
 							{/if}
 							<div class="card-actions justify-center">
-								<button class="btn btn-accent btn-block" disabled={market.maturityDate < now}
-									>Pick</button
+								{#if bettingAvailable(market.maturityDate)}
+									<input
+										type="text"
+										placeholder="How much?"
+										class="input input-bordered input-success w-full max-w-xs text-center"
+										bind:value={market.awayBetAmount}
+									/>
+								{/if}
+								<button
+									class="btn btn-accent btn-block"
+									disabled={!bettingAvailable(market.maturityDate)}
+									on:click={() => betting.bet(market.address, market.awayBetAmount)}
+								>
+									Pick</button
 								>
 							</div>
 						</div>
@@ -107,12 +129,22 @@
 						</figure>
 						<div class="card-body">
 							<h1 class="card-title justify-center">{market.homeTeam}</h1>
-							{#if market.maturityDate < now}
+							{#if !bettingAvailable(market.maturityDate)}
 								<h3 class="text-3xl text-center">{market.homeScore}</h3>
 							{/if}
 							<div class="card-actions justify-center">
-								<button class="btn btn-accent btn-block" disabled={market.maturityDate < now}
-									>Pick</button
+								{#if bettingAvailable(market.maturityDate)}
+									<input
+										type="text"
+										placeholder="How much?"
+										class="input input-bordered input-success w-full max-w-xs text-center"
+										bind:value={market.homeBetAmount}
+									/>
+								{/if}
+								<button
+									class="btn btn-accent btn-block"
+									disabled={!bettingAvailable(market.maturityDate)}
+									on:click={() => betting.bet(market.address, market.homeBetAmount)}>Pick</button
 								>
 							</div>
 						</div>

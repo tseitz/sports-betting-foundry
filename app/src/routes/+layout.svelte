@@ -41,9 +41,9 @@
 			console.log('balance', balance.toBigInt());
 
 			defaultEvmStores.attachContract(
-				'storage',
-				'0x0b306bf915c4d645ff596e518faf3f9669b97016',
-				'[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Retrieved","type":"event"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"retrieve","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"num","type":"uint256"}],"name":"store","outputs":[],"stateMutability":"nonpayable","type":"function"}]'
+				'betting',
+				'0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0',
+				'[{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"Unauthorized","type":"error"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"better","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"total","type":"uint256"}],"name":"BetMade","type":"event"},{"inputs":[{"internalType":"address","name":"pool","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"bet","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"end","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"pool","type":"address"}],"name":"getBetAmount","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}]'
 			);
 
 			pending = false;
@@ -53,7 +53,7 @@
 		}
 	};
 
-	// $: stroage = $connected ? $contracts.storage : '';
+	// $: storage = $connected ? $contracts.storage : '';
 
 	// const store = async () => {
 	// 	const transaction = await $contracts.storage.store(5000000000000);
