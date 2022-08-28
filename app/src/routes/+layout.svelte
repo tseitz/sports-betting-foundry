@@ -55,29 +55,21 @@
 
 	// $: stroage = $connected ? $contracts.storage : '';
 
-	const store = async () => {
-		const transaction = await $contracts.storage.store(5000000000000);
-		console.log(transaction);
-		await transaction.wait();
-		value = await $contracts.storage.retrieve();
-		console.log(value.toString());
-		// console.log($contracts.storage.retrieve().value.toString());
-	};
+	// const store = async () => {
+	// 	const transaction = await $contracts.storage.store(5000000000000);
+	// 	console.log(transaction);
+	// 	await transaction.wait();
+	// 	value = await $contracts.storage.retrieve();
+	// 	console.log(value.toString());
+	// 	// console.log($contracts.storage.retrieve().value.toString());
+	// };
 
-	$: value = $contracts.storage && $contracts.storage.retrieve();
+	// $: value = $contracts.storage && $contracts.storage.retrieve();
 </script>
 
 <Header {pending} {connect} />
 
 <main class="container mx-auto">
-	{#await value}
-		<span>waiting...</span>
-	{:then value}
-		{#if value}
-			<h1>{value.toString()}</h1>
-			<button class="btn" on:click={store}>Store Something</button>
-		{/if}
-	{/await}
 	<slot />
 </main>
 

@@ -303,6 +303,51 @@
         }
       }
     },
+    "script/Betting.s.sol": {
+      "lastModificationDate": 1661706963909,
+      "contentHash": "bdd240a0293ef9ebf2c716971606532b",
+      "sourceName": "script/Betting.s.sol",
+      "solcConfig": {
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 200
+          },
+          "metadata": {
+            "bytecodeHash": "ipfs"
+          },
+          "outputSelection": {
+            "*": {
+              "": [
+                "ast"
+              ],
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ]
+            }
+          },
+          "evmVersion": "london",
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "src/Betting.sol"
+      ],
+      "versionRequirement": "^0.8.15",
+      "artifacts": {
+        "BettingScript": {
+          "0.8.15+commit.e14f2714.Darwin.appleclang": "Betting.s.sol/BettingScript.json"
+        }
+      }
+    },
     "script/Contract.s.sol": {
       "lastModificationDate": 1661295986505,
       "contentHash": "6569e3fcd2d0ecd2b3a2a72bdc503b14",
@@ -350,8 +395,8 @@
       }
     },
     "src/Betting.sol": {
-      "lastModificationDate": 1661290838854,
-      "contentHash": "09f40fec9015401b8441cf92b92ee40c",
+      "lastModificationDate": 1661708017769,
+      "contentHash": "a21890db3e20f48adeab865b3e86c8a6",
       "sourceName": "src/Betting.sol",
       "solcConfig": {
         "settings": {

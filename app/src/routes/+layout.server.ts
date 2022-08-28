@@ -1,8 +1,7 @@
 import { ALCHEMY_API_KEY } from '$env/static/private';
 
-import type { LayoutServerLoad } from './$types';
-
-export async function load({ params }): LayoutServerLoad {
+/** @type {import('./$types').LayoutServerLoad} */
+export async function load({ params }) {
 	return {
 		ALCHEMY_API_KEY
 	};

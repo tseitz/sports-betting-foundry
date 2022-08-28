@@ -12,7 +12,7 @@ export type SportsTagsMap = Record<string, number[]>;
 export type SportMarketInfo = {
 	id: string;
 	address: string;
-	maturityDate: Date;
+	maturityDate: number; // really Date but timestamp
 	tags: string[]; // really these are numbers but they come in as strings
 	isOpen: boolean;
 	isResolved: boolean;
@@ -28,4 +28,5 @@ export type SportMarketInfo = {
 	homeScore: number;
 	awayScore: number;
 	sport: string;
+	timestamp: number; // really Date but timestamp
 };

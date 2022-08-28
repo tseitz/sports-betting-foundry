@@ -1,21 +1,22 @@
 <script lang="ts">
-	import thalesData from 'thales-data';
-	import { SPORTS_TAGS_MAP } from '@constants/tags';
-	import type { SportMarketInfo } from '@types/markets';
+	import type { PageData } from './$types';
 
-	const data = new Array(3);
+	export let data: PageData;
+	const now = new Date().getTime();
 
-	const markets = thalesData.sportMarkets
-		.markets({
-			network: 10,
-			isOpen: true
-		})
-		.then((markets: SportMarketInfo[]) => {
-			return markets.filter((market) =>
-				SPORTS_TAGS_MAP.Football.some((tag) => market.tags.includes(tag.toString()))
-			);
-		});
-	console.log(markets);
+	const getTimeUntil = (timestamp: number) => {
+		const delta = timestamp - now;
+		const seconds = Math.floor((delta / 1000) % 60);
+		const minutes = Math.floor((delta / 1000 / 60) % 60);
+		const hours = Math.floor((delta / (1000 * 60 * 60)) % 24);
+		const days = Math.floor(delta / (1000 * 60 * 60 * 24));
+		return {
+			days,
+			hours,
+			minutes,
+			seconds
+		};
+	};
 </script>
 
 <svelte:head>
@@ -23,48 +24,96 @@
 	<meta name="description" content="Bet Me" />
 </svelte:head>
 
-{#await markets then markets}
+{#await data.markets then markets}
 	{#each markets as market}
 		<div class="card glass w-full shadow-xl my-10">
-			<div class="grid grid-cols-3 gap-2 p-8">
-				<div class="flex content-center">
-					<h2 class="card-title">{market.homeTeam} vs. {market.awayTeam}</h2>
-					<p>{new Date(market.timestamp)}</p>
-				</div>
-				<div class="flex justify-center">
-					<div class="card card-compact w-auto bg-base-100 shadow-xl">
-						<figure>
-							<img
-								src="https://overtimemarkets.xyz/logos/NFL/{market.homeTeam
-									.toLowerCase()
-									.replaceAll(' ', '-')}.svg"
-								class="h-48 w-auto"
-								alt={market.homeTeam}
-							/>
-						</figure>
-						<div class="card-body">
-							<h2 class="card-title justify-center">{market.homeTeam}</h2>
-							<div class="card-actions justify-center">
-								<button class="btn btn-accent">Bet</button>
+			<div class="grid grid-cols-8 gap-2 p-8">
+				<div class="flex flex-col col-span-3">
+					<h1 class="card-title text-3xl">{market.homeTeam} vs. {market.awayTeam}</h1>
+					<div class="grid grid-flow-col gap-5 text-center auto-cols-max my-4">
+						{#if market.maturityDate > now}
+							<div class="flex flex-col">
+								<span class="countdown font-mono text-5xl">
+									<!-- jsx is nice for this, only need to call once to get all these. Need to figure this out in svelte -->
+									<span style="--value:{getTimeUntil(market.maturityDate)['days']};" />
+								</span>
+								days
 							</div>
-						</div>
+							<div class="flex flex-col">
+								<span class="countdown font-mono text-5xl">
+									<span style="--value:{getTimeUntil(market.maturityDate)['hours']};" />
+								</span>
+								hours
+							</div>
+							<div class="flex flex-col">
+								<span class="countdown font-mono text-5xl">
+									<span style="--value:{getTimeUntil(market.maturityDate)['minutes']};" />
+								</span>
+								min
+							</div>
+							<div class="flex flex-col">
+								<span class="countdown font-mono text-5xl">
+									<span style="--value:{getTimeUntil(market.maturityDate)['seconds']};" />
+								</span>
+								sec
+							</div>
+						{:else}
+							<div>
+								<h1 class="text-3xl text-red-400">Betting has closed</h1>
+							</div>
+						{/if}
 					</div>
+					<ul>
+						<li class="my-2 text-lg"><strong>Tegan:</strong> {market.homeTeam} for $10</li>
+						<li class="my-2 text-lg"><strong>Jayden:</strong> {market.awayTeam} for $10</li>
+						<li class="my-2 text-lg"><strong>Warren:</strong> {market.homeTeam} for $10</li>
+					</ul>
 				</div>
-				<div class="flex justify-center">
+				<div class="flex justify-center col-span-2">
 					<div class="card card-compact w-auto bg-base-100 shadow-xl">
 						<figure>
 							<img
 								src="https://overtimemarkets.xyz/logos/NFL/{market.awayTeam
 									.toLowerCase()
 									.replaceAll(' ', '-')}.svg"
-								class="h-48 w-auto"
+								class="h-64 w-64"
 								alt={market.awayTeam}
 							/>
 						</figure>
 						<div class="card-body">
-							<h2 class="card-title justify-center">{market.awayTeam}</h2>
+							<h1 class="card-title justify-center">{market.awayTeam}</h1>
+							{#if market.maturityDate < now}
+								<h3 class="text-3xl text-center">{market.awayScore}</h3>
+							{/if}
 							<div class="card-actions justify-center">
-								<button class="btn btn-accent">Bet</button>
+								<button class="btn btn-accent btn-block" disabled={market.maturityDate < now}
+									>Pick</button
+								>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="flex flex-col justify-center items-center text-2xl">@</div>
+				<div class="flex justify-center col-span-2">
+					<div class="card card-compact w-auto bg-base-100 shadow-xl">
+						<figure>
+							<img
+								src="https://overtimemarkets.xyz/logos/NFL/{market.homeTeam
+									.toLowerCase()
+									.replaceAll(' ', '-')}.svg"
+								class="h-64 w-64"
+								alt={market.homeTeam}
+							/>
+						</figure>
+						<div class="card-body">
+							<h1 class="card-title justify-center">{market.homeTeam}</h1>
+							{#if market.maturityDate < now}
+								<h3 class="text-3xl text-center">{market.homeScore}</h3>
+							{/if}
+							<div class="card-actions justify-center">
+								<button class="btn btn-accent btn-block" disabled={market.maturityDate < now}
+									>Pick</button
+								>
 							</div>
 						</div>
 					</div>
