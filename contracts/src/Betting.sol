@@ -69,3 +69,39 @@ contract Betting {
         return p.onTheLine[msg.sender];
     }
 }
+
+import "forge-std/Test.sol";
+
+contract BettingTest is Test {
+    Betting betContract;
+
+    function setUp() public {
+        betContract = new Betting();
+    }
+
+    function testBet() public {
+        betContract.bet(address(1337), 5);
+        assertEq(betContract.getBetAmount(address(1337)), 5);
+    }
+}
+
+// contract EmitBetTest is Test {
+//     event BetMade(address better, uint256 amount, uint256 total);
+
+//     function testExpectEmit() public {
+//         Betting bettingEmitter = new Betting();
+//         betContract.bet(address(1337), 5);
+//         // vm.prank(address(1337));
+//         vm.expectEmit(true, true, false, true);
+//         emit BetMade(address(1337), 2);
+//         storageEmitter.retrieve();
+//     }
+
+//     function testExpectEmitNoCheckData() public {
+//         Storage storageEmitter = new Storage();
+//         vm.prank(address(1337));
+//         vm.expectEmit(true, true, false, false);
+//         emit Retrieved(address(1337), 6);
+//         storageEmitter.retrieve();
+//     }
+// }

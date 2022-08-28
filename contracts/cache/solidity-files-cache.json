@@ -336,9 +336,11 @@
       },
       "imports": [
         "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/Test.sol",
         "lib/forge-std/src/Vm.sol",
         "lib/forge-std/src/console.sol",
         "lib/forge-std/src/console2.sol",
+        "lib/solmate/lib/ds-test/src/test.sol",
         "src/Betting.sol"
       ],
       "versionRequirement": "^0.8.15",
@@ -395,8 +397,8 @@
       }
     },
     "src/Betting.sol": {
-      "lastModificationDate": 1661708017769,
-      "contentHash": "a21890db3e20f48adeab865b3e86c8a6",
+      "lastModificationDate": 1661709008785,
+      "contentHash": "e6d888bfd716835a02f6e3d9f9816f66",
       "sourceName": "src/Betting.sol",
       "solcConfig": {
         "settings": {
@@ -425,11 +427,21 @@
           "libraries": {}
         }
       },
-      "imports": [],
+      "imports": [
+        "lib/forge-std/src/Script.sol",
+        "lib/forge-std/src/Test.sol",
+        "lib/forge-std/src/Vm.sol",
+        "lib/forge-std/src/console.sol",
+        "lib/forge-std/src/console2.sol",
+        "lib/solmate/lib/ds-test/src/test.sol"
+      ],
       "versionRequirement": "^0.8.15",
       "artifacts": {
         "Betting": {
           "0.8.15+commit.e14f2714.Darwin.appleclang": "Betting.sol/Betting.json"
+        },
+        "BettingTest": {
+          "0.8.15+commit.e14f2714.Darwin.appleclang": "Betting.sol/BettingTest.json"
         }
       }
     },
